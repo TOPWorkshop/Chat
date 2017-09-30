@@ -1,0 +1,19 @@
+{
+  "server": {
+    "port": 3000
+  },
+
+  "database": {
+    "database": "top-chat",
+    "dialect": "sqlite"
+  },
+
+  "security": {
+    "hashing": {
+      "saltLength": 128,
+      "iterations": 10000,
+      "hashKeylen": 512,
+      "hashDigest": "sha512"
+    }
+  }
+}

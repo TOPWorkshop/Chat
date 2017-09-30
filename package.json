@@ -1,0 +1,42 @@
+{
+  "name": "topworkshop-chat",
+  "version": "1.0.0",
+  "description": "A \"complex\" application to familiarize with the node.js environment",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zweer/TOPWorkshop-Chat.git"
+  },
+  "keywords": [
+    "node.js",
+    "chat",
+    "websocket",
+    "express"
+  ],
+  "author": "Niccolò Olivieri <niccolo@olivieriachille.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Zweer/TOPWorkshop-Chat/issues"
+  },
+  "homepage": "https://github.com/Zweer/TOPWorkshop-Chat#readme",
+  "dependencies": {
+    "config": "^1.26.2",
+    "ejs": "^2.5.7",
+    "express": "^4.16.0",
+    "morgan": "^1.9.0",
+    "sequelize": "^4.12.0",
+    "socket.io": "^2.0.3",
+    "sqlite3": "^3.1.13"
+  },
+  "devDependencies": {
+    "eslint": "^4.7.2",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.4.0"
+  }
+}
