@@ -1,29 +1,46 @@
 const AbstractController = require('.');
 
+const models = require('../models');
+
 module.exports = class WebsiteController extends AbstractController {
   initRouter() {
-    this.router.get('/', (req, res) => WebsiteController.indexAction(req, res));
-    this.router.get('/rooms', (req, res) => WebsiteController.roomsAction(req, res));
-    this.router.get('/room/:roomId', (req, res) => WebsiteController.roomAction(req, res));
+    this.router.get('/', (req, res) => res.redirect('/rooms'));
+    this.router.get('/rooms', WebsiteController.roomListAction);
+    this.router.post('/rooms', WebsiteController.roomCreateAction);
+    this.router.get('/rooms/:roomId', WebsiteController.roomRetrieveAction);
 
-    this.router.param('roomId', (req, res) => WebsiteController.retrieveRoom(req, res));
+    this.router.param('roomId', WebsiteController.retrieveRoom);
   }
 
-  static indexAction(req, res) {
-    res.render('login');
+  static async roomListAction(req, res) {
+    const rooms = await models.room.findAll();
+
+    res.render('rooms', { rooms });
   }
 
-  static roomsAction(req, res) {
+  static async roomCreateAction(req, res) {
+    const name = req.body.name;
 
+    if (!name) {
+      return res.redirect('/rooms');
+    }
+
+    const [room/* , created */] = await models.room.findCreateFind({
+      where: { name },
+    });
+
+    return res.redirect(`/rooms/${room.id}`);
   }
 
-  static roomAction(req, res) {
-
+  static roomRetrieveAction(req, res) {
+    res.render('room', { room: req.room });
   }
 
-  static retrieveRoom(req) {
-    const roomId = req.params.roomId;
+  static async retrieveRoom(req, res, next, id) {
+    req.room = await models.room.findOne({
+      where: { id },
+    });
 
-    req.room = roomId;
+    next();
   }
 };

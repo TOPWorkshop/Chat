@@ -1,7 +1,8 @@
 const express = require('express');
 
 module.exports = class AbstractController {
-  constructor() {
+  constructor(io) {
+    this.io = io;
     this.router = express.Router();
 
     this.initRouter();

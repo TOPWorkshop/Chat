@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Zweer/TOPWorkshop-Chat#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "config": "^1.26.2",
     "ejs": "^2.5.7",
     "express": "^4.16.0",

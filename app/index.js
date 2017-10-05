@@ -3,9 +3,11 @@ const http = require('http');
 const socket = require('socket.io');
 const morgan = require('morgan');
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const models = require('./models');
 
+const SocketController = require('./controllers/socket');
 const WebsiteController = require('./controllers/website');
 
 module.exports = class ChatApp {
@@ -31,11 +33,15 @@ module.exports = class ChatApp {
 
     this.app.use(morgan('dev'));
 
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: false }));
+
     this.app.use(express.static(path.join(__dirname, '..', 'public')));
   }
 
   initRoutes() {
-    this.app.use('/', new WebsiteController().router);
+    this.app.use('/', new SocketController(this.io).router);
+    this.app.use('/', new WebsiteController(this.io).router);
   }
 
   static handleServerError(error) {
