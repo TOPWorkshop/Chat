@@ -18,8 +18,13 @@ module.exports = class SocketController extends AbstractController {
     socket.join(roomId);
 
     const messages = await models.message.findAll({
-      where: {},
       limit: 10,
+      include: [{
+        model: models.room,
+        where: {
+          id: roomId,
+        },
+      }],
     });
 
     messages.forEach(message => this.ioRoom.emit('message', message));
