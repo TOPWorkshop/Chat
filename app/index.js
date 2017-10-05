@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const log = require('./libraries/log');
 const models = require('./models');
 
 const SocketController = require('./controllers/socket');
@@ -25,36 +26,51 @@ module.exports = class ChatApp {
     this.io = socket(this.server);
 
     this.server.on('error', error => ChatApp.handleServerError(error));
+
+    log.silly('Server initialized');
   }
 
   initMiddlewares() {
     this.app.set('views', path.join(__dirname, 'views'));
     this.app.set('view engine', 'ejs');
 
-    this.app.use(morgan('dev'));
+    this.app.use(morgan('dev', {
+      skip: (req, res) => res.statusCode >= 400,
+      stream: { write: message => log.server.info(message) },
+    }));
+
+    this.app.use(morgan('dev', {
+      skip: (req, res) => res.statusCode < 400,
+      stream: { write: message => log.server.warn(message) },
+    }));
 
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
 
     this.app.use(express.static(path.join(__dirname, '..', 'public')));
+
+    log.silly('Middlewares initialized');
   }
 
   initRoutes() {
     this.app.use('/', new SocketController(this.io).router);
     this.app.use('/', new WebsiteController(this.io).router);
+
+    log.silly('Routes initialized');
   }
 
   static handleServerError(error) {
-    console.error(error.message);
+    log.error('Server error');
+    log.debug(error.message);
   }
 
   listen() {
     return models.sequelize.sync()
       .then(() => {
-        console.log('Database synchronized');
+        log.info('Database synchronized');
 
         return new Promise(resolve => this.server.listen(this.config.port, () => {
-          console.log(`Listening on port ${this.config.port}`);
+          log.info(`Listening on port ${this.config.port}`);
 
           resolve();
         }));

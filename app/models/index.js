@@ -3,7 +3,11 @@ const path = require('path');
 const config = require('config');
 const Sequelize = require('sequelize');
 
+const log = require('../libraries/log');
+
 const configDb = config.get('database');
+configDb.logging = message => log.db.debug(message);
+
 if (configDb.dialect === 'sqlite') {
   configDb.storage = path.join(__dirname, '..', '..', `${configDb.database}.db`);
 }

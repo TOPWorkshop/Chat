@@ -1,4 +1,6 @@
 const AbstractController = require('.');
+
+const log = require('../libraries/log');
 const models = require('../models');
 
 module.exports = class SocketController extends AbstractController {
@@ -8,7 +10,7 @@ module.exports = class SocketController extends AbstractController {
   }
 
   handleRoomSocket(socket) {
-    console.log('Connected');
+    log.socket.info('Connected');
 
     socket.on('join', roomId => this.handleRoomJoin(socket, roomId));
     socket.on('newMessage', (roomId, message) => this.handleRoomNewMessage(socket, roomId, message));
@@ -16,6 +18,8 @@ module.exports = class SocketController extends AbstractController {
 
   async handleRoomJoin(socket, roomId) {
     socket.join(roomId);
+
+    log.socket.silly(`Room ${roomId} joined`);
 
     const messages = await models.message.findAll({
       limit: 10,

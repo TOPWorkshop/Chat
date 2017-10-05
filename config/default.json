@@ -8,6 +8,10 @@
     "dialect": "sqlite"
   },
 
+  "log": {
+    "level": "silly"
+  },
+
   "security": {
     "hashing": {
       "saltLength": 128,
