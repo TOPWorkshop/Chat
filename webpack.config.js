@@ -20,7 +20,7 @@ module.exports = {
   },
 
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'public', 'js'),
     filename: '[name].js',
   },
 
@@ -80,7 +80,7 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({ // seperate vendor chunks
       name: ['vendor', 'manifest'],
     }),
-    new ExtractTextPlugin('[name].css'),
+    new ExtractTextPlugin('../css/[name].css'),
     new WebpackCleanupPlugin(),
     new webpack.optimize.UglifyJsPlugin({ minimize: true }),
     new ModernizrPlugin({
