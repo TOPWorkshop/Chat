@@ -5,9 +5,13 @@
 
   <a href="/rooms">&lt;-- Back to rooms list</a>
 
-  <form class="chat-form">
-    <input class="chat-input">
-    <button class="chat-submit">Send</button>
+  <form class="form-inline">
+    <div class="form-group mx-sm-3">
+      <label for="roomNameInput" class="sr-only">Chat message</label>
+      <input type="text" name="name" id="roomNameInput" class="form-control chat-input" placeholder="Enter chat message">
+    </div>
+
+    <button type="submit" class="btn btn-primary chat-submit">Create</button>
   </form>
 
   <div class="chat" data-room-id="<%= room.id %>"></div>

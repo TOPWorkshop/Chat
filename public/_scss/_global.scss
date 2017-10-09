@@ -1,0 +1,16 @@
+$color: #721c24;
+
+body {
+  background: #f8d7da;
+
+  color: $color;
+}
+
+a {
+  color: darken($color, 10%);
+
+  &:hover,
+  &:focus {
+    color: darken($color, 20%);
+  }
+}

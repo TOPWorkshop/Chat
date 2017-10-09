@@ -23,6 +23,7 @@ module.exports = class SocketController extends AbstractController {
 
     const messages = await models.message.findAll({
       limit: 10,
+      order: [['createdAt', 'DESC']],
       include: [{
         model: models.room,
         where: {
@@ -31,7 +32,7 @@ module.exports = class SocketController extends AbstractController {
       }],
     });
 
-    messages.forEach(message => this.ioRoom.emit('message', message));
+    messages.reverse().forEach(message => this.ioRoom.emit('message', message));
   }
 
   async handleRoomNewMessage(socket, roomId, message) {
