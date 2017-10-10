@@ -4,6 +4,7 @@
   "description": "A \"complex\" application to familiarize with the node.js environment",
   "main": "index.js",
   "scripts": {
+    "eslint": "eslint .",
     "start": "node index",
     "webpack": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
