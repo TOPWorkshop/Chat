@@ -32,7 +32,7 @@ module.exports = class SocketController extends AbstractController {
       }],
     });
 
-    messages.reverse().forEach(message => this.ioRoom.emit('message', message));
+    messages.reverse().forEach(message => this.ioRoom.to(roomId).emit('message', message));
   }
 
   async handleRoomNewMessage(socket, roomId, message) {
