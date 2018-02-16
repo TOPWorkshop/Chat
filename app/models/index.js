@@ -5,7 +5,7 @@ const Sequelize = require('sequelize');
 
 const log = require('../libraries/log');
 
-const configDb = config.get('database');
+const configDb = Object.assign({}, config.get('database'));
 configDb.logging = message => log.db.debug(message);
 
 if (configDb.dialect === 'sqlite') {
@@ -17,7 +17,7 @@ if (url && configDb.dialect === 'postgres' && configDb.dialectOptions && configD
   url += '?ssl=true';
 }
 
-const sequelize = new Sequelize(configDb);
+const sequelize = url ? new Sequelize(url, configDb) : new Sequelize(configDb);
 
 const models = { Sequelize, sequelize };
 const modelsDirpath = __dirname;
