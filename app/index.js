@@ -1,5 +1,6 @@
 const path = require('path');
 const http = require('http');
+const config = require('config');
 const socket = require('socket.io');
 const morgan = require('morgan');
 const express = require('express');
@@ -12,8 +13,8 @@ const SocketController = require('./controllers/socket');
 const WebsiteController = require('./controllers/website');
 
 module.exports = class ChatApp {
-  constructor(config) {
-    this.config = config;
+  constructor() {
+    this.config = config.get('server');
 
     this.initServer();
     this.initMiddlewares();
