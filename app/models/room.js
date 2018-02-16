@@ -2,7 +2,7 @@ const config = require('config');
 const crypto = require('crypto');
 
 module.exports = (sequelize, DataTypes) => {
-  const Model = sequelize.define('room', {
+  const Model = sequelize.define('Room', {
     name: {
       type: DataTypes.STRING,
       unique: true,
@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Model.associate = function associate(models) {
-    models.room.hasMany(models.message);
+    models.Room.hasMany(models.Message);
   };
 
   return Model;

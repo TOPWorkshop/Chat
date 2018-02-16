@@ -1,7 +1,7 @@
 const AbstractController = require('.');
 
 const log = require('../libraries/log');
-const models = require('../models');
+const { Message, Room } = require('../models');
 
 module.exports = class SocketController extends AbstractController {
   initRouter() {
@@ -21,11 +21,11 @@ module.exports = class SocketController extends AbstractController {
 
     log.socket.silly(`Room ${roomId} joined`);
 
-    const messages = await models.message.findAll({
+    const messages = await Message.findAll({
       limit: 10,
       order: [['createdAt', 'DESC']],
       include: [{
-        model: models.room,
+        model: Room,
         where: {
           id: roomId,
         },
@@ -36,7 +36,7 @@ module.exports = class SocketController extends AbstractController {
   }
 
   async handleRoomNewMessage(socket, roomId, message) {
-    const messageObj = models.message.build();
+    const messageObj = Message.build();
 
     messageObj.text = message;
 

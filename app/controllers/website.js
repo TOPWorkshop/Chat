@@ -1,6 +1,6 @@
 const AbstractController = require('.');
 
-const models = require('../models');
+const { Room } = require('../models');
 
 module.exports = class WebsiteController extends AbstractController {
   initRouter() {
@@ -13,19 +13,19 @@ module.exports = class WebsiteController extends AbstractController {
   }
 
   static async roomListAction(req, res) {
-    const rooms = await models.room.findAll();
+    const rooms = await Room.findAll();
 
     res.render('rooms', { rooms });
   }
 
   static async roomCreateAction(req, res) {
-    const name = req.body.name;
+    const { name } = req.body;
 
     if (!name) {
       return res.redirect('/rooms');
     }
 
-    const [room/* , created */] = await models.room.findCreateFind({
+    const [room/* , created */] = await Room.findCreateFind({
       where: { name },
     });
 
@@ -37,7 +37,7 @@ module.exports = class WebsiteController extends AbstractController {
   }
 
   static async retrieveRoom(req, res, next, id) {
-    req.room = await models.room.findOne({
+    req.room = await Room.findOne({
       where: { id },
     });
 

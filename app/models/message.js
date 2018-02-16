@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Model = sequelize.define('message', {
+  const Model = sequelize.define('Message', {
     text: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Model.associate = function associate(models) {
-    models.message.belongsTo(models.room);
+    models.Message.belongsTo(models.Room);
   };
 
   return Model;
