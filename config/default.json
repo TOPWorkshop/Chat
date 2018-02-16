@@ -5,7 +5,9 @@
 
   "database": {
     "database": "top-chat",
-    "dialect": "sqlite"
+    "dialect": "sqlite",
+
+    "operatorsAliases": false
   },
 
   "log": {
