@@ -8,7 +8,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const log = require('./libraries/log');
-const models = require('./models');
+const { sequelize } = require('./models');
 
 module.exports = class ChatApp {
   constructor() {
@@ -73,7 +73,7 @@ module.exports = class ChatApp {
   }
 
   async listen() {
-    await models.sequelize.sync();
+    await sequelize.sync();
 
     await new Promise((resolve, reject) =>
       this.server.listen(this.config.port, err =>
