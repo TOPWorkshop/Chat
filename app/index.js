@@ -72,16 +72,13 @@ module.exports = class ChatApp {
     log.debug(error.message);
   }
 
-  listen() {
-    return models.sequelize.sync()
-      .then(() => {
-        log.info('Database synchronized');
+  async listen() {
+    await models.sequelize.sync();
 
-        return new Promise(resolve => this.server.listen(this.config.port, () => {
-          log.info(`Listening on port ${this.config.port}`);
+    await new Promise((resolve, reject) =>
+      this.server.listen(this.config.port, err =>
+        (err ? reject(err) : resolve())));
 
-          resolve();
-        }));
-      });
+    log.info(`Listening on port ${this.config.port}`);
   }
 };
