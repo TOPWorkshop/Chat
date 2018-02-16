@@ -9,7 +9,8 @@
     "heroku-postbuild": "webpack",
     "start": "node index",
     "pretest": "eslint .",
-    "test": "jest"
+    "test": "jest",
+    "posttest": "webpack"
   },
   "repository": {
     "type": "git",
