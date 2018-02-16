@@ -2,6 +2,7 @@
 ### Application
 public/css
 public/js
+top-chat.db
 
 ### Node template
 # Logs
