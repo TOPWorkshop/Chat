@@ -12,6 +12,11 @@ if (configDb.dialect === 'sqlite') {
   configDb.storage = path.join(__dirname, '..', '..', `${configDb.database}.db`);
 }
 
+let url = configDb.url;
+if (url && configDb.dialect === 'postgres' && configDb.dialectOptions && configDb.dialectOptions.ssl && !url.includes('?ssl=')) {
+  url += '?ssl=true';
+}
+
 const sequelize = new Sequelize(configDb);
 
 const models = { Sequelize, sequelize };

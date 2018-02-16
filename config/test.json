@@ -1,9 +1,15 @@
 {
+  "environment": "test",
+
   "server": {
     "port": 0
   },
 
   "database": {
     "storage": ":memory:"
+  },
+
+  "log": {
+    "level": "error"
   }
 }
