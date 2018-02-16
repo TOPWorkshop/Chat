@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const config = require('config');
@@ -8,9 +9,6 @@ const bodyParser = require('body-parser');
 
 const log = require('./libraries/log');
 const models = require('./models');
-
-const SocketController = require('./controllers/socket');
-const WebsiteController = require('./controllers/website');
 
 module.exports = class ChatApp {
   constructor() {
@@ -54,8 +52,17 @@ module.exports = class ChatApp {
   }
 
   initRoutes() {
-    this.app.use('/', new SocketController(this.io).router);
-    this.app.use('/', new WebsiteController(this.io).router);
+    const controllersDir = path.join(__dirname, 'controllers');
+
+    fs
+      .readdirSync(controllersDir)
+      .filter(filename => filename !== 'index.js' && filename.substr(-3) === '.js')
+      .forEach((filename) => {
+        // eslint-disable-next-line global-require, import/no-dynamic-require
+        const Controller = require(path.join(controllersDir, filename));
+
+        this.app.use('/', new Controller(this.io).router);
+      });
 
     log.silly('Routes initialized');
   }
